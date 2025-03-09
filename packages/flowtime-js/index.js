@@ -46,6 +46,19 @@ export function fromDate(date) {
   };
 }
 
+export function fromTimeLeft({ hour, minute, second }, seed) {
+  const hoursSeed = seed;
+  const hoursSequence = randomSequence(24, hoursSeed);
+  const minutesSeed = seed + hoursSequence[hour];
+  const minutesSequence = randomSequence(60, minutesSeed);
+  return {
+    hour: hoursSequence[hour],
+    minute: minutesSequence[minute],
+    second: second,
+  };
+}
+
 export default {
   fromDate,
+  fromTimeLeft,
 };
