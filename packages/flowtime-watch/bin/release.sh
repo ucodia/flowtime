@@ -6,21 +6,17 @@ cd $ROOT_DIR
 
 # Init git submodules
 git submodule update --init
-git -C ./sensor-watch submodule update --init
-
-# Hack: I was not able to override the original headers files with the local ones
-rm ./sensor-watch/movement/movement_config.h
-rm ./sensor-watch/movement/movement_faces.h
+git -C ./second-movement submodule update --init --recursive
 
 # Delete and create release directory
 rm -rf ./release
 mkdir ./release
 
 # Build each board variant firmwares
-for color in RED GREEN BLUE; do
-    make -C ./make clean COLOR="$color"
-    make -C ./make --silent COLOR="$color"
-    cp ./make/build/watch.uf2 "./release/flowtime_watch_${color}.uf2"
+for board in sensorwatch_red sensorwatch_green sensorwatch_blue; do
+    make -C ./second-movement clean BOARD="$board" DISPLAY=classic
+    make -C ./second-movement BOARD="$board" DISPLAY=classic
+    cp ./second-movement/build/firmware.uf2 "./release/flowtime_watch_${board}.uf2"
 done
 
 echo "------------------------------"

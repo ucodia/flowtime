@@ -1,3 +1,4 @@
-[submodule "packages/flowtime-watch/sensor-watch"]
-	path = packages/flowtime-watch/sensor-watch
-	url = https://github.com/joeycastillo/Sensor-Watch.git
+[submodule "packages/flowtime-watch/second-movement"]
+	path = packages/flowtime-watch/second-movement
+	url = https://github.com/ucodia/second-movement
+	branch = flowtime

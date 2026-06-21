@@ -2,7 +2,7 @@
 
 The Flowtime Watch is an implementation of the [Flowtime](https://github.com/Ucodia/flowtime) on a classic Casio watch.
 
-This project depends on the `movement` framework from the [Sensor Watch](https://github.com/joeycastillo/Sensor-Watch) project.
+This project is built as the `flowtime` branch on a fork of [Second Movement](https://github.com/ucodia/second-movement/tree/flowtime).
 
 ## Dependencies
 
@@ -10,43 +10,39 @@ To build this project, you need to install the `arm-none-eabi` variant of the Ar
 
 ## Building
 
-After cloning this repository, make sure you have pulled the submodules for `sensor-watch` and its submodules.
+After cloning this repository, pull the `second-movement` submodule and its own submodules:
 
 ```
 git submodule update --init
-cd sensor-watch
-git submodule update --init
+git -C ./second-movement submodule update --init --recursive
 ```
 
-Hack: These files need to be removed as make does not seem to respect priority of header directory as defined in the Makefile
+Find which Sensor Watch board you are building for and run the following command from inside the `second-movement` directory:
 
 ```
-rm sensor-watch/movement/movement_config.h
-rm sensor-watch/movement/movement_faces.h
+cd second-movement
+make BOARD=sensorwatch_red DISPLAY=classic
 ```
 
-Find which Sensor Watch board you are building for (RED, GREEN or BLUE), then run the following command by specifying the proper color
+Valid `BOARD` values are: `sensorwatch_pro`, `sensorwatch_green`, `sensorwatch_red`, `sensorwatch_blue`
 
-```
-cd make
-make COLOR=RED
-```
+Valid `DISPLAY` values are: `classic`, `custom`
 
 ## Testing
 
-To test in the emulator, run the following command
+To test in the emulator, run the following command from inside the `second-movement` directory:
 
 ```
-cd make
-emmake make COLOR=RED
+cd second-movement
+emmake make BOARD=sensorwatch_red DISPLAY=classic
 python3 -m http.server -d build-sim
 ```
 
-The emulator should be available at http://localhost:8000/watch.html
+The emulator should be available at http://localhost:8000/firmware.html
 
 ## Flashing
 
-To flash your Sensor Watch with the Flowtime watch firmware, copy the `movement/make/build/watch.uf2` firmware file to your board. Read more in the official [Sensor Watch documentation](https://www.sensorwatch.net/docs/firmware/flashing/).
+To flash your Sensor Watch with the Flowtime watch firmware, copy the `second-movement/build/firmware.uf2` firmware file to your board, or run `make install` from the `second-movement` directory. Read more in the official [Sensor Watch documentation](https://www.sensorwatch.net/docs/firmware/flashing/).
 
 ## Releasing
 
